@@ -1,0 +1,27 @@
+{% extends 'products/base_generic.html' %}
+
+{% block title %}Подтверждение заказа{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Подтверждение заказа</h1>
+    <h2>Заказ №{{ order.id }}</h2>
+    <p>Статус заказа: {{ order.get_status_display }}</p>
+    <p>Создан: {{ order.created_at }}</p>
+    <p>Итоговая стоимость: {{ order.total_price }} ₽</p>
+
+    <h3>Товары в заказе:</h3>
+    <ul>
+        {% for item in order.orderitem_set.all %}
+            <li>{{ item.product.name }} - {{ item.quantity }} x {{ item.product.price }} ₽</li>
+        {% empty %}
+            <li>В заказе нет товаров.</li>
+        {% endfor %}
+    </ul>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Подтвердить заказ</button>
+    </form>
+</div>
+{% endblock %}

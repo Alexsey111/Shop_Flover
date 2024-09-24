@@ -1,0 +1,45 @@
+{% extends 'products/base_generic.html' %}
+
+{% block title %}Предварительный просмотр заказа{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Предварительный просмотр заказа</h1>
+    <p>Order ID: {{ order.id }}</p>
+
+    <!-- Одна форма, обернутая вокруг всех элементов -->
+    <form method="post" action="{% url 'confirm_order' order.id %}" class="mt-4">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="delivery_option" class="form-label">Выберите способ доставки:</label>
+            <select name="delivery_option" id="delivery_option" class="form-select" required>
+                <option value="" selected disabled>Выберите способ доставки</option>
+                <option value="standard" {% if order.delivery_option == "standard" %}selected{% endif %}>Стандартная доставка</option>
+                <option value="express" {% if order.delivery_option == "express" %}selected{% endif %}>Экспресс-доставка</option>
+                <option value="pickup" {% if order.delivery_option == "pickup" %}selected{% endif %}>Самовывоз</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="payment_option" class="form-label">Выберите способ оплаты:</label>
+            <select name="payment_option" id="payment_option" class="form-select" required>
+                <option value="" selected disabled>Выберите способ оплаты</option>
+                <option value="credit_card" {% if order.payment_option == "credit_card" %}selected{% endif %}>Кредитная карта</option>
+                <option value="paypal" {% if order.payment_option == "paypal" %}selected{% endif %}>PayPal</option>
+                <option value="cash_on_delivery" {% if order.payment_option == "cash_on_delivery" %}selected{% endif %}>Оплата при доставке</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Подтвердить заказ</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.querySelector('form').addEventListener('submit', function() {
+        console.log('Форма отправляется с Order ID:', {{ order.id }});
+    });
+</script>
+{% endblock %}

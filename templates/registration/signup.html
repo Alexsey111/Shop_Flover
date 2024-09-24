@@ -1,0 +1,21 @@
+{% extends 'products/base_generic.html' %}
+
+{% block title %}Регистрация через Telegram{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center">Регистрация через Telegram</h2>
+
+            <p class="text-center">Чтобы зарегистрироваться, нажмите кнопку ниже и пройдите процедуру регистрации через нашего бота в Telegram.</p>
+
+            <a href="https://t.me/Bot_ShopFlower_bot " class="btn btn-primary btn-block" target="_blank">Перейти в Telegram</a>
+
+            <p class="mt-3 text-center">
+                У вас уже есть аккаунт? <a href="{% url 'login' %}">Войдите здесь</a>.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

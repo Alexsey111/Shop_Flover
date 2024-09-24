@@ -1,0 +1,61 @@
+{% extends 'products/base_generic.html' %}
+
+{% block title %}Регистрация завершена{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center">Регистрация завершена</h2>
+
+            <p class="text-center">Вы успешно зарегистрировались через Telegram! Пожалуйста, заполните оставшиеся поля ниже:</p>
+
+            <form method="post" action="{% url 'complete_signup' %}">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="id_username">Имя пользователя:</label>
+                    <input type="text" name="username" id="id_username" class="form-control" required placeholder="Имя пользователя">
+                </div>
+
+                <div class="form-group">
+                    <label for="id_email">E-mail (опционально):</label>
+                    <input type="email" name="email" id="id_email" class="form-control" placeholder="Адрес электронной почты">
+                </div>
+
+                <div class="form-group">
+                    <label for="id_first_name">Имя:</label>
+                    <input type="text" name="first_name" id="id_first_name" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_last_name">Фамилия:</label>
+                    <input type="text" name="last_name" id="id_last_name" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_phone">Телефон:</label>
+                    <input type="text" name="phone" id="id_phone" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_address">Адрес:</label>
+                    <textarea name="address" id="id_address" class="form-control" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_password1">Пароль:</label>
+                    <input type="password" name="password1" id="id_password1" class="form-control" required placeholder="Введите пароль">
+                </div>
+
+                <div class="form-group">
+                    <label for="id_password2">Подтверждение пароля:</label>
+                    <input type="password" name="password2" id="id_password2" class="form-control" required placeholder="Подтвердите пароль">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Завершить регистрацию</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
