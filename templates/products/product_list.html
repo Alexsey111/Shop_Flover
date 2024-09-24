@@ -1,0 +1,95 @@
+{% extends 'products/base_generic.html' %}
+
+{% block title %}Список товаров{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <!-- Форма фильтрации и поиска -->
+  <form method="get" action="{% url 'product_list' %}" class="mb-4">
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Поиск</button>
+  </form>
+
+  <div class="row">
+    {% for product in page_obj %}
+      <div class="col-md-4">
+        <div class="card">
+          <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">{{ product.price }} руб.</p>
+
+            <!-- Кнопка "Добавить в корзину" -->
+            <form action="{% url 'add_to_cart' product.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-success">Добавить в корзину</button>
+            </form>
+          </div>
+
+          <!-- Форма для добавления отзыва -->
+          <div class="card-footer">
+            <h6>Оставьте отзыв:</h6>
+            <form method="post" action="{% url 'add_review' product.id %}">
+              {% csrf_token %}
+              {{ review_form.as_p }}
+              <input type="hidden" name="product" value="{{ product.id }}">
+              <button type="submit" class="btn btn-primary">Отправить отзыв</button>
+            </form>
+          </div>
+
+          <!-- Список отзывов -->
+          <div class="card-footer">
+            <h6>Отзывы:</h6>
+            {% if product.reviews.all %}
+              {% for review in product.reviews.all %}
+                <div class="mb-2">
+                  <p><strong>{{ review.user.username }}</strong> (Рейтинг: {{ review.rating }}/5)</p>
+                  <p>{{ review.review }}</p>
+                  <p>Дата: {{ review.created_at }}</p>
+                </div>
+              {% endfor %}
+            {% else %}
+              <p>Отзывов пока нет.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Пагинация -->
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page=1">Первая</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+        </li>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <li class="page-item active">
+            <span class="page-link">{{ num }}</span>
+          </li>
+        {% elif num > page_obj.number|add:'-5' and num < page_obj.number|add:'5' %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+{% endblock %}

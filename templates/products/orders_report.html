@@ -1,0 +1,26 @@
+{% extends 'products/base_generic.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Отчеты по заказам</h2>
+
+    <p>Общее количество заказов: {{ total_orders }}</p>
+    <p>Выполненные заказы: {{ completed_orders }}</p>
+    <p>Отмененные заказы: {{ cancelled_orders }}</p>
+    <p>Общая выручка: {{ total_revenue }} руб.</p>
+    <p>Средний чек: {{ average_order_value }} руб.</p>
+
+    <h3>Статистика по доставке</h3>
+    <ul>
+        {% for stat in delivery_stats %}
+            <li>{{ stat.delivery_option }}: {{ stat.count }} заказов</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Статистика по способам оплаты</h3>
+    <ul>
+        {% for stat in payment_stats %}
+            <li>{{ stat.payment_option }}: {{ stat.count }} заказов</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
