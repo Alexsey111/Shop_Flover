@@ -1,7 +1,6 @@
 from django.urls import path
 from . import views
-from django.contrib.auth.views import LogoutView
-from users.views import SignupView, ActivationView
+
 
 urlpatterns = [
     path('', views.index, name='index'),  # Главная страница
@@ -9,7 +8,6 @@ urlpatterns = [
     path('add-to-cart/<int:product_id>/', views.add_to_cart, name='add_to_cart'),  # Добавление в корзину
     path('remove-from-cart/<int:cart_item_id>/', views.remove_from_cart, name='remove_from_cart'),  # Удаление из корзины
     path('checkout/', views.checkout, name='checkout'),  # Оформление заказа
-    path('registration/logout/', LogoutView.as_view(template_name='account/logout.html'), name='logout'),
     path('order/success/', views.order_success, name='order_success'),  # Успешное оформление заказа
     path('products/', views.product_list, name='product_list'),  # Список продуктов
     path('order/preview/<int:order_id>/', views.order_preview, name='order_preview'),  # Предварительный просмотр заказа

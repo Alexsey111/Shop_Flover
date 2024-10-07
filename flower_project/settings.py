@@ -94,6 +94,29 @@ DATABASES = {
     }
 }
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'INFO',  # Измените уровень логирования на INFO
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',  # Измените на INFO, чтобы отключить DEBUG-сообщения
+            'propagate': True,
+        },
+        'django.utils.autoreload': {
+            'handlers': ['console'],
+            'level': 'INFO',  # Отключите DEBUG для django.utils.autoreload
+            'propagate': False,
+        },
+    },
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -120,7 +143,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGES = [
     ('ru', ('Russian')),
     ('en', ('English')),
-    # другие языки, если нужно
+
 ]
 
 LANGUAGE_CODE = 'ru'
@@ -132,7 +155,7 @@ TIME_ZONE = 'UTC'
 USE_TZ = True
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',  # для стандартного Django
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 

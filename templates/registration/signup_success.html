@@ -13,6 +13,9 @@
             <form method="post" action="{% url 'complete_signup' %}">
                 {% csrf_token %}
 
+                <input type="hidden" name="chat_id" value="{{ chat_id }}">
+                <input type="hidden" name="telegram_username" value="{{ telegram_username }}">
+
                 <div class="form-group">
                     <label for="id_username">Имя пользователя:</label>
                     <input type="text" name="username" id="id_username" class="form-control" required placeholder="Имя пользователя">
@@ -52,6 +55,18 @@
                     <label for="id_password2">Подтверждение пароля:</label>
                     <input type="password" name="password2" id="id_password2" class="form-control" required placeholder="Подтвердите пароль">
                 </div>
+
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <ul>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field|capfirst }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
 
                 <button type="submit" class="btn btn-primary btn-block">Завершить регистрацию</button>
             </form>

@@ -7,8 +7,7 @@ django.setup()
 
 from products.models import Product, Category
 
-# Предположим, что у вас уже есть категории в базе данных
-# Получите все категории, или создайте их, если они не существуют
+
 categories = Category.objects.all()
 
 # Если нет категорий, создайте одну по умолчанию
