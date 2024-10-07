@@ -1,9 +1,13 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
+import logging
+
+# Настройка логирования
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
@@ -59,23 +63,24 @@ class PaymentMethod(models.Model):
     def __str__(self):
         return self.name
 
+
 class Order(models.Model):
     STATUS_CHOICES = [
-        ('pending', _('Pending')),
-        ('completed', _('Completed')),
-        ('cancelled', _('Cancelled')),
+        ('pending', 'Pending'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
     ]
 
     DELIVERY_CHOICES = [
-        ('standard', _('Standard Delivery')),
-        ('express', _('Express Delivery')),
-        ('pickup', _('Pickup')),
+        ('standard', 'Standard Delivery'),
+        ('express', 'Express Delivery'),
+        ('pickup', 'Pickup'),
     ]
 
     PAYMENT_CHOICES = [
-        ('credit_card', _('Credit Card')),
-        ('paypal', _('PayPal')),
-        ('cash_on_delivery', _('Cash on Delivery')),
+        ('credit_card', 'Credit Card'),
+        ('paypal', 'PayPal'),
+        ('cash_on_delivery', 'Cash on Delivery'),
     ]
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -89,8 +94,16 @@ class Order(models.Model):
         self.total_price = sum(item.product.price * item.quantity for item in self.orderitem_set.all())
         self.save()
 
+    async def confirm_order(self):
+        from telegram_bot.notifications import send_order_confirmation
+        self.status = 'completed'
+        self.save()
+        logger.info(f"Confirming order {self.id} for user {self.user.username} (chat_id: {self.user.chat_id})")
+        await send_order_confirmation(self)  # Вызов с использованием await
+
     def __str__(self):
         return f"Order {self.id} by {self.user.username}, Status: {self.get_status_display()}, Total Price: {self.total_price}"
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='orderitem_set', on_delete=models.CASCADE)
@@ -126,13 +139,3 @@ class Report(models.Model):
     def __str__(self):
         return f"Report for {self.date}"
 
-
-class Profile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True)
-    phone = models.CharField(max_length=15, blank=True, null=True)
-    address = models.TextField(blank=True, null=True)
-    telegram_username = models.CharField(max_length=255, blank=True, null=True)
-    chat_id = models.BigIntegerField(null=True, blank=True)
-
-    def __str__(self):
-        return self.user.username

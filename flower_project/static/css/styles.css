@@ -5,33 +5,27 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    max-height: 800px;
+    height: 100%; /* Убедитесь, что карточки занимают всю доступную высоту */
+    max-height: none; /* Уберите ограничение на максимальную высоту */
     transition: transform 0.3s ease-in-out;
 }
 
-.card:hover {
-    transform: scale(1.05);
-}
-
+/* Убедитесь, что изображения адаптивны */
 .card-img-top {
     height: 200px;
     object-fit: cover;
     transition: transform 0.3s ease-in-out;
 }
 
-.card:hover .card-img-top {
-    transform: scale(1.1);
-}
-
+/* Увеличьте отступы в .card-body для лучшего размещения */
 .card-body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 20px; /* Увеличьте отступы, чтобы создать пространство для элементов */
+    padding: 20px;
 }
 
-/* Стили для кнопок */
+/* Кнопка "Добавить в корзину" */
 .btn {
     display: inline-block;
     padding: 10px 20px;
@@ -42,29 +36,15 @@
     border-radius: 5px;
 }
 
+/* Основной стиль кнопки */
 .btn-primary {
     background-color: #007bff;
     border: none;
 }
 
-.btn-primary:hover {
-    background-color: #0056b3;
-}
-
 /* Стили для формы отзыва */
 form {
-    margin-top: 20px; /* Добавьте отступ сверху для отделения формы от других элементов */
-}
-
-.form-group {
-    margin-bottom: 15px; /* Уменьшите отступ снизу для улучшения размещения формы */
-}
-
-label {
-    display: block;
-    margin-bottom: 5px; /* Уменьшите отступ снизу для компактности */
-    color: #555;
-    font-weight: bold;
+    margin-top: 20px;
 }
 
 textarea {
@@ -75,21 +55,10 @@ textarea {
     border-radius: 4px;
     font-size: 16px;
     color: #333;
-    resize: vertical; /* Позволяет пользователю изменять размер поля только по вертикали */
 }
 
+/* Убедитесь, что кнопки отправки адаптивны */
 button[type="submit"].btn-primary {
-    background-color: #007bff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%;
-    margin-top: 10px; /* Уменьшите отступ сверху, чтобы он соответствовал другим кнопкам */
-}
-
-button[type="submit"].btn-primary:hover {
-    background-color: #0056b3;
+    width: 100%; /* Кнопки занимают всю ширину формы */
+    margin-top: 10px;
 }

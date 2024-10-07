@@ -11,7 +11,7 @@
   </form>
 
   <div class="row">
-    {% for product in page_obj %}
+    {% for product in page_obj.object_list %}  {# Изменение здесь #}
       <div class="col-md-4">
         <div class="card">
           <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">

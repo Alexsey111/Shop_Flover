@@ -16,7 +16,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,  include
-from django.http import HttpResponse
 from products.views import index
 from django.conf.urls.static import static
 from django.conf import settings
@@ -25,9 +24,9 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),  # Убедитесь, что это включено
+    path('accounts/', include('django.contrib.auth.urls')),
     path('products/', include('products.urls')),
-    path('', index, name='index'),  # Главная страница
+    path('', index, name='index'),
 ]
 
 

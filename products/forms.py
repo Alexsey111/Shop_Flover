@@ -1,6 +1,5 @@
 from django import forms
-from .models import Profile, Category, Order, Review
-import re
+from .models import Category, Order, Review
 import logging
 
 
@@ -81,13 +80,3 @@ class ReviewForm(forms.ModelForm):
             'rating': 'Оценка',
         }
 
-
-#class CustomSignupForm(SignupForm):
-#     first_name = forms.CharField(max_length=30, label='Имя')
-#     last_name = forms.CharField(max_length=30, label='Фамилия')
-#     phone = forms.CharField(max_length=15, label='Телефон')
-#     address = forms.CharField(widget=forms.Textarea, label='Адрес')
-#     telegram_username = forms.CharField(max_length=255, required=False, label='Telegram Username')
-#
-# class CustomSignupView(SignupView):
-#     form_class = CustomSignupForm
