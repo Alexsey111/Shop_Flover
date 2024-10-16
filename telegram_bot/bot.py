@@ -214,38 +214,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-# async def send_telegram_message(chat_id, message):
-#     if not chat_id or not message:
-#         logging.error("chat_id или message не определены")
-#         return
-#
-#     logging.info(f"Отправка сообщения на chat ID: {chat_id}")
-#
-#     try:
-#         # Использование application.bot для отправки сообщения
-#         await application.bot.send_message(chat_id=chat_id, text=message)
-#         logging.info("Сообщение успешно отправлено.")
-#     except Exception as e:
-#         logging.error(f"Ошибка при отправке сообщения: {str(e)}")
-#
-#
-#
-# # Основная функция для запуска бота
-# def main():
-#     global application  # Делаем application глобальной переменной
-#     application = Application.builder().token(TOKEN).build()
-#
-#     # Регистрация обработчиков команд
-#     application.add_handler(CommandHandler("start", start))
-#     application.add_handler(CommandHandler("register", register))
-#     application.add_handler(CommandHandler("orders", handle_orders_command))
-#     application.add_handler(CommandHandler("order_status", handle_order_status_command))
-#     application.add_handler(CommandHandler("generate_report", handle_generate_report_command))
-#
-#     application.run_polling()
-#
-# if __name__ == '__main__':
-#     main()
-
