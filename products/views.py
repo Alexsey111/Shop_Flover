@@ -114,26 +114,32 @@ async def create_order(request):
 
 @login_required
 def order_detail(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
+    order = get_object_or_404(Order, id=order_id, user=request.user)
     return render(request, 'products/order_detail.html', {'order': order})
 
 @login_required
 def confirm_order(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
+    order = get_object_or_404(Order, id=order_id, user=request.user)
 
     if request.method == 'POST':
-        print("POST-запрос получен")
-        print("Данные формы:", request.POST)
+        # Форма на странице предпросмотра позволяет поменять доставку и оплату,
+        # поэтому перед подтверждением сохраняем выбранные значения.
+        delivery = request.POST.get('delivery_option')
+        payment = request.POST.get('payment_option')
+        if delivery in dict(Order.DELIVERY_CHOICES):
+            order.delivery_option = delivery
+        if payment in dict(Order.PAYMENT_CHOICES):
+            order.payment_option = payment
 
         order.status = 'completed'
-        order.save()
+        order.save(update_fields=['status', 'delivery_option', 'payment_option'])
 
-        cart = Cart.objects.get(user=request.user)
-        cart.items.all().delete()
+        cart = Cart.objects.filter(user=request.user).first()
+        if cart is not None:
+            cart.items.all().delete()
+            cart.update_total_price()
 
         return redirect('order_detail', order_id=order.id)
-    else:
-        print("Метод не POST")
 
     return render(request, 'products/confirm_order.html', {'order': order})
 

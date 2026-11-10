@@ -1,3 +1,4 @@
+import os
 from django.contrib.auth import get_user_model
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
@@ -11,7 +12,12 @@ import traceback
 
 
 User = get_user_model()
-TOKEN = 'TELEGRAM_BOT_TOKEN_УДАЛЁН_ИЗ_ИСТОРИИ'
+TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
+if not TOKEN:
+    raise RuntimeError(
+        'Не задан TELEGRAM_BOT_TOKEN. Запустите: set TELEGRAM_BOT_TOKEN=<токен> (Windows) '
+        'или export TELEGRAM_BOT_TOKEN=<токен> (Linux/macOS). Токен берётся у @BotFather.'
+    )
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)

@@ -20,10 +20,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-vk9ldopwwa0_38n92t#$%x4o7c-^_+$$zr=l6f*mgp%num+a7e'
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY',
+    'django-insecure-vk9ldopwwa0_38n92t#$%x4o7c-^_+$$zr=l6f*mgp%num+a7e',
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'
 
 ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'users.CustomUser'
@@ -80,7 +83,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    "C:/Users/Рабочий ПК/Documents/GitHub/Shop_Flover/flower_project/static",
+    BASE_DIR / "flower_project" / "static",
 ]
 
 

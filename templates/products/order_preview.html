@@ -8,7 +8,8 @@
     <p>Order ID: {{ order.id }}</p>
 
     <!-- Одна форма, обернутая вокруг всех элементов -->
-    <form method="post" action="{% url 'confirm_order' order.id %}" class="mt-4">
+    <form method="post" action="{% url 'confirm_order' order.id %}" class="mt-4"
+          data-confirm="Подтвердить заказ? После этого статус станет «выполнен».">
         {% csrf_token %}
 
         <div class="mb-3">
